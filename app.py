@@ -1,5 +1,3 @@
-#Xiaohan Jiang 014514994
-
 from flask import Flask, escape, request
 
 app = Flask(__name__)
@@ -22,7 +20,7 @@ def hello():
 @app.route('/students',methods=['POST'])
 def create_student():
     global DB, student_id, class_id
-    name = request.args.get("name", "Katy")
+    name = (request.json)["name"]
 
     for student in DB["students"]:
         if name == student["name"]:   #check if student existed
@@ -47,7 +45,7 @@ def search_student(stu_id):
 @app.route('/classes',methods=['POST'])
 def create_class():
     global DB, student_id, class_id
-    name = request.args.get("name", "CMPE_273")
+    name = (request.json)["name"]
     for course in DB["classes"]:
         if name == course["name"]:   #check if class existed
             return course
@@ -72,7 +70,7 @@ def search_class(cour_id):
 @app.route('/classes/<cour_id>',methods=['PATCH'])
 def add_student(cour_id):
     global DB, student_id, class_id
-    stu_id = request.args.get("student_id")
+    stu_id = (request.json)["student_id"]
     course_existed = False
     for course in DB["classes"]:
         if int(cour_id) == course["id"]:     #check existed
